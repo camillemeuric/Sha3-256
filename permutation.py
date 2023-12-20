@@ -1,11 +1,25 @@
+"""
+    Effectue une rotation circulaire vers la gauche sur un entier.
+
+    Args:
+        x (int): L'entier à rotationner.
+        n (int): Le nombre de bits à décaler.
+        w (int): La largeur de l'entier en bits.
+
+    Returns:
+        int: L'entier après la rotation.
+"""
 def rotate_left(x, n, w):
     return ((x << n) | (x >> (w - n))) % (1 << w)
+
 """
-    Calculer la parité des 5×w colonnes (de 5 bits) de l’état, 
-    puis calculer le ou exclusif entre deux colonnes voisines. 
-    C[x] = A[x, 0] ⊕ A[x, 1] ⊕ A[x, 2] ⊕ A[x, 3] ⊕ A[x, 4] , x = 0, 1, 2, 3, 4
-    D[x] = C[x − 1] ⊕ rot(C[x + 1], 1) , x = 0, 1, 2, 3, 4
-    A[x, y] = A[x, y] ⊕ D[x] , x, y = 0, 1, 2, 3, 4
+    Applique l'opération de permutation Theta à la matrice d'état A.
+
+    Args:
+        A (list): La matrice d'état.
+        w (int): La largeur des mots en bits.
+    Returns:
+        list: La matrice d'état mise à jour après l'opération Theta.
 """
 def theta(A, w):
     C = [0] * 5
@@ -22,7 +36,15 @@ def theta(A, w):
 
     return A
 
+"""
+    Crée une liste tridimensionnelle de largeur w remplie de zéros.
 
+    Args:
+        w (int): La largeur des mots en bits.
+
+    Returns:
+        list: Une liste tridimensionnelle remplie de zéros.
+"""
 def liste_tri_dim(w):
     B = []
     for i in range(5):
@@ -32,7 +54,16 @@ def liste_tri_dim(w):
         B.append(C)
     return B
 
+"""
+    Applique l'opération de permutation Rho à la matrice d'état A.
 
+    Args:
+        A (list): La matrice d'état.
+        w (int): La largeur des mots en bits.
+
+    Returns:
+        list: La matrice d'état mise à jour après l'opération Rho.
+"""
 def rho(A, w):
     #C = [[[0] * w for _ in range(5)] for _ in range(5)]
     B = liste_tri_dim(w)
@@ -56,8 +87,17 @@ def rho(A, w):
 Permutation des 25 mots avec un motif fixé:
 a[3i+2j][i] = a[i][j]
 """
+"""
+    Applique l'opération de permutation Pi à la matrice d'état A.
+
+    Args:
+        A (list): La matrice d'état.
+        w (int): La largeur des mots en bits.
+
+    Returns:
+        list: La matrice d'état mise à jour après l'opération Pi.
+"""
 def pi(A, w):
-    #B = [[[0] * w for i in range(5)] for i in range(5)]
     B = liste_tri_dim(w)
 
     for x in range(5):
@@ -67,6 +107,16 @@ def pi(A, w):
 
     return B
 
+"""
+    Applique l'opération de permutation Chi à la matrice d'état A.
+
+    Args:
+        A (list): La matrice d'état.
+        w (int): La largeur des mots en bits.
+
+    Returns:
+        list: La matrice d'état mise à jour après l'opération Chi.
+"""
 def chi(A, w):
     B = liste_tri_dim(w)
 
@@ -77,8 +127,18 @@ def chi(A, w):
     return B
 
 
-#constant RC[i] differs depending on which round i is being executed. 
 
+"""
+    Applique l'opération de permutation Iota à la matrice d'état A.
+
+    Args:
+        A (list): La matrice d'état.
+        round_index (int): L'indice du tour.
+        w (int): La largeur des mots en bits.
+
+    Returns:
+        list: La matrice d'état mise à jour après l'opération Iota.
+"""
 def iota(A, round_index, w):
     # Round constants for SHA-3 (64 bits each)
     RC = [
@@ -92,7 +152,7 @@ def iota(A, round_index, w):
         0x8000000000008080, 0x0000000080000001, 0x8000000080008008
     ]
 
-    # XOR the lane at [0, 0] with the corresponding round constant
+    #constant RC[i] differs depending on which round i is being executed. 
     A[0][0] = A[0][0] ^ RC[round_index]
 
     return A
