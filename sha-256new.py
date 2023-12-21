@@ -107,7 +107,7 @@ def sponge(message, r, d):
 
     # Padding the input message
     padded_message = pad(message, r)
-
+    print(padded_message)
     # Breaking the padded message into blocks
     blocks = [padded_message[i:i + r] for i in range(0, len(padded_message), r)]
     # Initialize the state
@@ -167,7 +167,7 @@ if __name__ == "__main__":
         print_sha3_256(data_name, data)
     else:
         for file_path in files:
-            with open(file_path, 'rb') as file: 
+            with open(file_path, 'rb') as file: # en r cela marche et rb ca MARCHE PAAAS
                 data_name = file_path
-                data = file.read()
+                data = file.read()# b'Hello, SHA-3!'
                 print_sha3_256(data_name, data)
